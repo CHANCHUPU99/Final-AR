@@ -1112,8 +1112,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aac792f6e22073340a24bf87995d98e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fuerzaLanzamiento: 50
-  fuerzaElevacion: 30
+  fuerzaLanzamiento: 40
+  fuerzaElevacion: 25
   maxFuerzaLanzamiento: 60
   maxDistanciaLanzamiento: 25
 --- !u!1 &963194225

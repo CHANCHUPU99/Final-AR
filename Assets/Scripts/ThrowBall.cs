@@ -5,7 +5,9 @@ using UnityEngine;
 public class ThrowBall : MonoBehaviour {
     private Vector3 touchStartPos; // Posición inicial del toque
     private Vector3 touchEndPos;   // Posición final del toque
+    private Vector3 lanzamientoDirection; // Dirección del lanzamiento
     private Rigidbody rb;
+    private Camera mainCamera;
 
     public float fuerzaLanzamiento = 10f; // Fuerza de lanzamiento
     public float fuerzaElevacion = 5f;   // Fuerza de elevación inicial
@@ -18,6 +20,7 @@ public class ThrowBall : MonoBehaviour {
     private void Start() {
         rb = GetComponent<Rigidbody>();
         rb.isKinematic = true; // Hacemos que el objeto no responda a la física mientras no lo estamos lanzando.
+        mainCamera = Camera.main; // Obtener la cámara principal
     }
 
     private void Update() {
@@ -33,6 +36,8 @@ public class ThrowBall : MonoBehaviour {
 
                 case TouchPhase.Moved:
                     touchEndPos = touch.position;
+                    // Calculamos la dirección del lanzamiento en tiempo real mientras se mueve el dedo
+                    lanzamientoDirection = CalculateLaunchDirection();
                     break;
 
                 case TouchPhase.Ended:
@@ -50,22 +55,27 @@ public class ThrowBall : MonoBehaviour {
         canMove = false; // Desactivamos la capacidad de mover la pelota
 
         // Calculamos la dirección y fuerza del lanzamiento basándonos en la diferencia de posiciones
-        Vector3 dragDirection = touchStartPos - touchEndPos;
-        float dragDistance = Mathf.Clamp(dragDirection.magnitude, 0f, maxDistanciaLanzamiento);
+        float dragDistance = Mathf.Clamp((touchEndPos - touchStartPos).magnitude, 0f, maxDistanciaLanzamiento);
         float forceMultiplier = dragDistance / maxDistanciaLanzamiento;
-
-        Vector3 lanzamientoVector = new Vector3(dragDirection.x, 0f, dragDirection.y).normalized;
-        float forceStrength = fuerzaLanzamiento + maxFuerzaLanzamiento * forceMultiplier;
 
         // Aplicamos la fuerza hacia arriba para la elevación inicial
         rb.AddForce(Vector3.up * fuerzaElevacion, ForceMode.Impulse);
 
-        // Aplicamos la fuerza de lanzamiento
-        rb.AddForce(lanzamientoVector * forceStrength, ForceMode.Impulse);
+        // Aplicamos la fuerza de lanzamiento en la dirección calculada
+        float forceStrength = fuerzaLanzamiento + maxFuerzaLanzamiento * forceMultiplier;
+        rb.AddForce(lanzamientoDirection * forceStrength, ForceMode.Impulse);
 
         // Reiniciamos las variables
         touchStartPos = Vector3.zero;
         touchEndPos = Vector3.zero;
+    }
+
+    private Vector3 CalculateLaunchDirection() {
+        // Calculamos un rayo desde la cámara hacia la posición actual del toque
+        Ray ray = mainCamera.ScreenPointToRay(Input.GetTouch(0).position);
+
+        // Usamos la dirección del rayo como dirección de lanzamiento
+        return ray.direction;
     }
 }
 
