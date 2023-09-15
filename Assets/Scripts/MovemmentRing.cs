@@ -1,9 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class MovemmentRing : MonoBehaviour
-{
+public class MovemmentRing : MonoBehaviour {
     public Transform target;
     public Transform start;
     public float speed = 1.0f;
