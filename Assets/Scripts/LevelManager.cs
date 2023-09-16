@@ -4,6 +4,19 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class LevelManager : MonoBehaviour {
+    [SerializeField] GameObject ringGame;
+    [SerializeField] GameObject ball;
+    [SerializeField] GameObject canvas;
+    [SerializeField] GameObject button;
+    public void startGame() {
+        /*Instantiate(ringGame);
+        Instantiate(ball);
+        Instantiate(canvas);*/
+        ringGame.SetActive(true);
+        ball.SetActive(true);
+        canvas.SetActive(true);
+        button.SetActive(false);
+    }
     public void changeScene() {
         SceneManager.LoadScene(SceneManager.GetActiveScene ().buildIndex);
     }
