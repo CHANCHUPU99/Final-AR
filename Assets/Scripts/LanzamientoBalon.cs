@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using Vuforia;
 
 public class LanzamientoBalon : MonoBehaviour
@@ -16,11 +17,13 @@ public class LanzamientoBalon : MonoBehaviour
 
     private bool isDragging = false;
     private bool canMove = true;
+    public string actualScene;
 
     private void Start() {
         rb = GetComponent<Rigidbody>();
         rb.useGravity = false;
         vuforiaCamera = Camera.main;
+        actualScene = SceneManager.GetActiveScene().name;
     }
 
     private void Update() {
@@ -51,6 +54,11 @@ public class LanzamientoBalon : MonoBehaviour
         }
     }
 
+    private void OnTriggerEnter(Collider other) {
+        if (other.CompareTag("Empty")) {
+            SceneManager.LoadScene(actualScene);
+        }
+    }
     private void Lanzar() {
         rb.useGravity = true;
         canMove = false;
