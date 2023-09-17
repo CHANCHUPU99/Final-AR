@@ -8,6 +8,10 @@ public class LevelManager : MonoBehaviour {
     [SerializeField] GameObject ball;
     [SerializeField] GameObject canvas;
     [SerializeField] GameObject button;
+
+    private void Start () {
+       
+    }
     public void startGame() {
         /*Instantiate(ringGame);
         Instantiate(ball);

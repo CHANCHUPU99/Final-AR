@@ -24,6 +24,14 @@ public class ThrowBall : MonoBehaviour {
     }
 
     private void Update() {
+        Quaternion deviceRotation = Input.gyro.attitude;
+
+        // Ajustar la dirección de la gravedad virtual
+        Vector3 gravityDirection = deviceRotation * Vector3.down;
+
+        // Aplicar la dirección de la gravedad virtual
+        Physics.gravity = gravityDirection * 9.81f;
+
         // Manejo de entrada táctil
         if (canMove && Input.touchCount > 0) {
             Touch touch = Input.GetTouch(0); // Tomamos el primer toque (asumimos un solo toque)
