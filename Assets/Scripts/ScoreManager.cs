@@ -10,7 +10,7 @@ public class ScoreManager : MonoBehaviour
     [SerializeField] TextMeshProUGUI scoreTxt;
     [SerializeField] GameObject ball;
     [SerializeField] GameObject transformBall;
-    
+    //[SerializeField] ParticleSystem particles;
     void Start()
     {
         scoreTxt.text = "Score: " + score.ToString();
@@ -24,6 +24,7 @@ public class ScoreManager : MonoBehaviour
         if (other.CompareTag("ball")) {
             score++;
             scoreTxt.text = "Score: " + score.ToString();
+            //particles.Play();
             ball.transform.position = transformBall.transform.position;
             Debug.LogWarning(score);
 
